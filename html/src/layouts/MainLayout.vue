@@ -1604,7 +1604,7 @@ const goToLogin = async () => {
 .main-content {
   position: relative;
   background-color: var(--bg-color-secondary);
-  padding: 20px;
+  padding: 0px;
   overflow-y: auto;
   transition: background-color 0.3s ease;
 }
