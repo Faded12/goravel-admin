@@ -17,6 +17,15 @@
           </span>
         </el-dropdown-item>
         <el-dropdown-item
+          command="zh-TW"
+          :class="{ 'is-active': currentLanguage === 'zh-TW' }"
+        >
+          <span class="language-option">
+            <span class="language-flag">🇭🇰</span>
+            <span>{{ $t('common.language_zh_tw') }}</span>
+          </span>
+        </el-dropdown-item>
+        <el-dropdown-item
           command="en-US"
           :class="{ 'is-active': currentLanguage === 'en-US' }"
         >
