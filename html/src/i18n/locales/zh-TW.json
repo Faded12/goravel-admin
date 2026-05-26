@@ -222,7 +222,15 @@
     "project_officer_post_id": "項目官員崗位ID",
     "project_officer_post_description": "項目官員崗位描述",
     "report_completion_date": "報告完成日期",
-    "actual_end_date": "實際結束日期"
+    "actual_end_date": "實際結束日期",
+    "tmc_call_date": "TMC呼叫日期",
+    "tmc_call_time": "TMC呼叫時間",
+    "tmc_arrival_date": "TMC到達日期",
+    "tmc_arrival_time": "TMC到達時間",
+    "breakdown_start_date": "故障開始日期",
+    "breakdown_start_time": "故障開始時間",
+    "resume_date": "恢復日期",
+    "resume_time": "恢復時間"
   },
   "monitor_runtime": {
     "title": "运行观测",

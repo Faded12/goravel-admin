@@ -52,7 +52,7 @@
       <input
         ref="fileInputRef"
         type="file"
-        accept=".csv"
+        accept=".csv,.xlsx"
         style="display: none"
         @change="handleFileChange"
       />
@@ -149,28 +149,33 @@ const tableColumns = computed(() => [
   {
     field: 'id',
     title: 'ID',
-    width: 70,
+    width: 60,
     sortable: true
   },
   {
     field: 'works_order_number',
     title: t('repairOrder.works_order_number'),
-    width: 150
+    width: 140
   },
   {
     field: 'notification_number',
     title: t('repairOrder.notification_number'),
-    width: 150
+    width: 130
+  },
+  {
+    field: 'external_works_order_number',
+    title: t('repairOrder.external_works_order_number'),
+    width: 140
   },
   {
     field: 'works_order_description',
     title: t('repairOrder.works_order_description'),
-    width: 300
+    width: 280
   },
   {
     field: 'works_order_type',
     title: t('repairOrder.works_order_type'),
-    width: 120
+    width: 100
   },
   {
     field: 'contract_number',
@@ -183,14 +188,30 @@ const tableColumns = computed(() => [
     width: 180
   },
   {
+    field: 'wo_cancelled',
+    title: t('repairOrder.wo_cancelled'),
+    width: 80,
+    formatter: ({ cellValue }) => cellValue ? '✓' : ''
+  },
+  {
     field: 'functional_location',
     title: t('repairOrder.functional_location'),
-    width: 140
+    width: 120
   },
   {
     field: 'functional_location_description',
     title: t('repairOrder.functional_location_description'),
-    width: 200
+    width: 180
+  },
+  {
+    field: 'priority_text',
+    title: t('repairOrder.priority_text'),
+    width: 100
+  },
+  {
+    field: 'issue_date',
+    title: t('repairOrder.issue_date'),
+    width: 110
   },
   {
     field: 'start_date',
@@ -203,14 +224,74 @@ const tableColumns = computed(() => [
     width: 110
   },
   {
+    field: 'extended_completion_date',
+    title: t('repairOrder.extended_completion_date'),
+    width: 130
+  },
+  {
     field: 'estimated_total_costs',
     title: t('repairOrder.estimated_total_costs'),
-    width: 130
+    width: 120
+  },
+  {
+    field: 'project_officer_post_id',
+    title: t('repairOrder.project_officer_post_id'),
+    width: 140
   },
   {
     field: 'project_officer_post_description',
     title: t('repairOrder.project_officer_post_description'),
-    width: 180
+    width: 160
+  },
+  {
+    field: 'report_completion_date',
+    title: t('repairOrder.report_completion_date'),
+    width: 130
+  },
+  {
+    field: 'actual_end_date',
+    title: t('repairOrder.actual_end_date'),
+    width: 110
+  },
+  {
+    field: 'tmc_call_date',
+    title: t('repairOrder.tmc_call_date'),
+    width: 110
+  },
+  {
+    field: 'tmc_call_time',
+    title: t('repairOrder.tmc_call_time'),
+    width: 90
+  },
+  {
+    field: 'tmc_arrival_date',
+    title: t('repairOrder.tmc_arrival_date'),
+    width: 120
+  },
+  {
+    field: 'tmc_arrival_time',
+    title: t('repairOrder.tmc_arrival_time'),
+    width: 100
+  },
+  {
+    field: 'breakdown_start_date',
+    title: t('repairOrder.breakdown_start_date'),
+    width: 130
+  },
+  {
+    field: 'breakdown_start_time',
+    title: t('repairOrder.breakdown_start_time'),
+    width: 110
+  },
+  {
+    field: 'resume_date',
+    title: t('repairOrder.resume_date'),
+    width: 100
+  },
+  {
+    field: 'resume_time',
+    title: t('repairOrder.resume_time'),
+    width: 90
   }
 ])
 
@@ -252,8 +333,8 @@ const handleFileChange = async (event) => {
     return
   }
 
-  if (!file.name.toLowerCase().endsWith('.csv')) {
-    ElMessage.error(t('common.invalid_file_type') || '文件类型错误，请上传CSV文件')
+  if (!file.name.toLowerCase().endsWith('.csv') && !file.name.toLowerCase().endsWith('.xlsx')) {
+    ElMessage.error(t('common.invalid_file_type') || '文件类型错误，请上传CSV或XLSX文件')
     if (fileInputRef.value) {
       fileInputRef.value.value = ''
     }

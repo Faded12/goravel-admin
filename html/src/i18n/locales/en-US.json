@@ -215,7 +215,15 @@
     "project_officer_post_id": "Project Officer Post ID",
     "project_officer_post_description": "Project Officer Post",
     "report_completion_date": "Report Completion Date",
-    "actual_end_date": "Actual End Date"
+    "actual_end_date": "Actual End Date",
+    "tmc_call_date": "TMC Call Date",
+    "tmc_call_time": "TMC Call Time",
+    "tmc_arrival_date": "TMC Arrival Date",
+    "tmc_arrival_time": "TMC Arrival Time",
+    "breakdown_start_date": "Breakdown Start Date",
+    "breakdown_start_time": "Breakdown Start Time",
+    "resume_date": "Resume Date",
+    "resume_time": "Resume Time"
   },
   "monitor_runtime": {
     "title": "Runtime Observability",
