@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 3007,
+      host: '0.0.0.0',
       // 启用 History API fallback，支持直接访问路由（如 /users）
       // 这对于 Vue Router 的 History 模式是必需的
       strictPort: false,
