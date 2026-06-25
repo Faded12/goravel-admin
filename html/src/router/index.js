@@ -232,6 +232,7 @@ function convertMenusToRoutes(menus) {
     const routePath = path.startsWith('/') ? path.slice(1) : path
     
     // 生成路由名称（从路径转换，如 "admins" -> "Admins", "user-balance-logs" -> "UserBalanceLogs"）
+    // 添加 "Route" 后缀确保路由名称唯一性，避免与组件名称冲突
     const routeName = routePath
       .split('/')  // 先按 / 分割，处理多级路径
       .filter(Boolean) // 移除空字符串
@@ -241,7 +242,7 @@ function convertMenusToRoutes(menus) {
            .map(p => p.charAt(0).toUpperCase() + p.slice(1))
            .join('')
       })
-      .join('')
+      .join('') + 'Route'
 
     // 生成 titleKey
     // 翻译文件中的键通常是 menu.xxx_management 格式

@@ -177,13 +177,13 @@ func (r *AuthController) Login(ctx http.Context) http.Response {
 	requestData := r.getLoginRequestData(ctx)
 	ip := helpers.GetRealIP(ctx)
 
-	// ---- 登录失败锁定检查 ----
-	if locked, _ := r.lockoutService.IsLocked(ip, loginRequest.Username); locked {
-		lockMinutes := facades.Config().GetInt("login_security.lock_duration_minutes", 15)
-		r.authService.RecordLoginLog(ctx, 0, loginRequest.Username, 0, "login_locked", requestData)
-		return response.Error(ctx, http.StatusTooManyRequests,
-			apperrors.ErrLoginLocked.WithParams(map[string]any{"minutes": lockMinutes}))
-	}
+	// ---- 登录失败锁定检查 ---- [已注释，禁用登录锁定]
+	// if locked, _ := r.lockoutService.IsLocked(ip, loginRequest.Username); locked {
+	// 	lockMinutes := facades.Config().GetInt("login_security.lock_duration_minutes", 15)
+	// 	r.authService.RecordLoginLog(ctx, 0, loginRequest.Username, 0, "login_locked", requestData)
+	// 	return response.Error(ctx, http.StatusTooManyRequests,
+	// 		apperrors.ErrLoginLocked.WithParams(map[string]any{"minutes": lockMinutes}))
+	// }
 
 	// 验证用户名是否存在
 	exists, err := facades.Orm().Query().Model(&models.Admin{}).Where("username", loginRequest.Username).Exists()

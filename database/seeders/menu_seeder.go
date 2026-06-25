@@ -63,6 +63,12 @@ func (s *MenuSeeder) Run() error {
 			hasUpdates := false
 			updateData := map[string]any{}
 
+			// 检查并更新 Icon
+			if menuData.Icon != "" && menuData.Icon != existingMenu.Icon {
+				updateData["icon"] = menuData.Icon
+				hasUpdates = true
+			}
+
 			// 检查并更新 Component
 			if menuData.Component != "" && menuData.Component != existingMenu.Component {
 				updateData["component"] = menuData.Component
@@ -463,6 +469,76 @@ func (s *MenuSeeder) Run() error {
 		Status:    1,
 		Sort:      4,
 		IsHidden:  1,
+	})
+
+	// 创建业务管理菜单（一级菜单）
+	businessMenu := createOrUpdateMenu(models.Menu{
+		ParentID:  0,
+		Title:     "业务管理",
+		Slug:      "business",
+		Icon:      "Folder",
+		Path:      "/business",
+		Component: "Layout",
+		Type:      1,
+		Status:    1,
+		Sort:      3,
+		IsHidden:  0,
+	})
+
+	// 创建维修单记录菜单
+	createOrUpdateMenu(models.Menu{
+		ParentID:  businessMenu.ID,
+		Title:     "维修单记录",
+		Slug:      "repair-order",
+		Icon:      "List",
+		Path:      "/repair-orders",
+		Component: "repairOrder/RepairOrderList",
+		Type:      2,
+		Status:    1,
+		Sort:      1,
+		IsHidden:  0,
+	})
+
+	// 创建维修管理菜单（一级菜单）
+	repairManagementMenu := createOrUpdateMenu(models.Menu{
+		ParentID:  0,
+		Title:     "维修管理",
+		Slug:      "repair-management",
+		Icon:      "Tools",
+		Path:      "/repair-management",
+		Component: "Layout",
+		Type:      1,
+		Status:    1,
+		Sort:      6,
+		IsHidden:  0,
+	})
+
+	// 创建九字头维修订单菜单
+	createOrUpdateMenu(models.Menu{
+		ParentID:  repairManagementMenu.ID,
+		Title:     "九字头维修订单",
+		Slug:      "jiu-order",
+		Icon:      "List",
+		Path:      "/jiu-orders",
+		Component: "repairOrder/JiuOrderList",
+		Type:      2,
+		Status:    1,
+		Sort:      1,
+		IsHidden:  0,
+	})
+
+	// 创建一字头维修订单菜单
+	createOrUpdateMenu(models.Menu{
+		ParentID:  repairManagementMenu.ID,
+		Title:     "一字头维修订单",
+		Slug:      "yi-order",
+		Icon:      "List",
+		Path:      "/yi-orders",
+		Component: "repairOrder/YiOrderList",
+		Type:      2,
+		Status:    1,
+		Sort:      2,
+		IsHidden:  0,
 	})
 
 	// 创建通知中心菜单

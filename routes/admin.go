@@ -42,6 +42,8 @@ func Admin() {
 	articleController := admin.NewArticleController()
 	formDemoController := admin.NewFormDemoController()
 	repairOrderController := admin.NewRepairOrderController()
+	jiuOrderController := admin.NewJiuOrderController()
+	yiOrderController := admin.NewYiOrderController()
 
 	// Admin 路由组：统一前缀和域名限制
 	facades.Route().Prefix("api/admin").Middleware(middleware.Domain(facades.Config().Get("domains.admin"))).Group(func(router route.Router) {
@@ -252,6 +254,14 @@ func Admin() {
 			router.Resource("repair-orders", repairOrderController)
 			router.Post("repair-orders/export", repairOrderController.Export)
 			router.Post("repair-orders/import", repairOrderController.Import)
+
+			// 九字头维修订单
+			router.Resource("jiu-orders", jiuOrderController)
+			router.Post("jiu-orders/export", jiuOrderController.Export)
+
+			// 一字头维修订单
+			router.Resource("yi-orders", yiOrderController)
+			router.Post("yi-orders/export", yiOrderController.Export)
 
 			// 代码生成器（仅在开发环境可用）
 			router.Middleware(middleware.DevelopmentOnly()).Group(func(router route.Router) {

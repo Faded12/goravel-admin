@@ -12,6 +12,9 @@ func (m *M20260525000001CreateRepairOrdersTable) Signature() string {
 }
 
 func (m *M20260525000001CreateRepairOrdersTable) Up() error {
+	if facades.Schema().HasTable("repair_orders") {
+		return nil
+	}
 	return facades.Schema().Create("repair_orders", func(table schema.Blueprint) {
 		table.BigIncrements("id")
 		table.String("works_order_number", 50)

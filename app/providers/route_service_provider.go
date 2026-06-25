@@ -51,18 +51,18 @@ func (receiver *RouteServiceProvider) configureRateLimiting() {
 		}
 	})
 
-	// 登录速率限制器（IP + 账号 双维度，避免攻击者锁住其他 IP 的同名账号）
-	facades.RateLimiter().For("login", func(ctx contractshttp.Context) contractshttp.Limit {
-		ip := helpers.GetRealIP(ctx)
-		username := resolveLoginIdentifier(ctx, ip)
-
-		return limit.PerMinute(6).Response(func(ctx contractshttp.Context) {
-			_ = ctx.Response().Json(contractshttp.StatusTooManyRequests, contractshttp.Json{
-				"code":    contractshttp.StatusTooManyRequests,
-				"message": trans.Get(ctx, "too_many_requests"),
-			}).Abort()
-		}).By(ip + ":login:" + username)
-	})
+	// 登录速率限制器（IP + 账号 双维度，避免攻击者锁住其他 IP 的同名账号）[已禁用]
+	// facades.RateLimiter().For("login", func(ctx contractshttp.Context) contractshttp.Limit {
+	// 	ip := helpers.GetRealIP(ctx)
+	// 	username := resolveLoginIdentifier(ctx, ip)
+	//
+	// 	return limit.PerMinute(6).Response(func(ctx contractshttp.Context) {
+	// 		_ = ctx.Response().Json(contractshttp.StatusTooManyRequests, contractshttp.Json{
+	// 			"code":    contractshttp.StatusTooManyRequests,
+	// 			"message": trans.Get(ctx, "too_many_requests"),
+	// 		}).Abort()
+	// 	}).By(ip + ":login:" + username)
+	// })
 
 	// 测试响应速率限制器（仅开发环境使用）
 	facades.RateLimiter().For("testResponse", func(ctx contractshttp.Context) contractshttp.Limit {

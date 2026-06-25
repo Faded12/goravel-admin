@@ -46,7 +46,7 @@
       :clearable="field.clearable !== false"
       :disabled="field.disabled"
       :multiple="field.multiple"
-      :filterable="field.filterable"
+      :filterable="true"
       :style="{ width: field.width || '200px' }"
       v-bind="field.props || {}"
     >

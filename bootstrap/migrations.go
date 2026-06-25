@@ -65,5 +65,9 @@ func Migrations() []schema.Migration {
 		&migrations.M20260423000200CreateSlowQueryLogsTable{},
 		&migrations.M20260426021000CreateApiEndpointMetricsTable{},
 		&migrations.M20260115152848ArticleTable{},
+		// 维修订单相关表
+		&migrations.M20260525000001CreateRepairOrdersTable{},
+		&migrations.M20260624000001CreateJiuOrdersTable{},
+		&migrations.M20260624000002CreateYiOrdersTable{},
 	}
 }

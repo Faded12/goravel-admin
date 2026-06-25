@@ -191,8 +191,10 @@
     "form_demo": "Form Demo",
     "observability-lite": "Runtime Observability",
     "business": "Business Management",
-    "repair-order": "Repair Orders",
-    "repairOrder": "Repair Orders"
+    "repairOrder": "Repair Orders",
+    "repairManagement": "Repair Management",
+    "jiuOrder": "Jiu Repair Orders",
+    "yiOrder": "Yi Repair Orders"
   },
   "repairOrder": {
     "works_order_number": "Works Order No",
@@ -224,6 +226,31 @@
     "breakdown_start_time": "Breakdown Start Time",
     "resume_date": "Resume Date",
     "resume_time": "Resume Time"
+  },
+  "jiuOrder": {
+    "jiu_no": "Jiu Order No",
+    "contract_no": "Contract No",
+    "dmo": "DMO No",
+    "estate": "Estate",
+    "worker": "Worker",
+    "type": "Type",
+    "fee": "Fee",
+    "order_status": "Order Status",
+    "complete_status": "Complete Status",
+    "project_type": "Project Type",
+    "date_start": "Start Date",
+    "date_end": "End Date"
+  },
+  "yiOrder": {
+    "yi_no": "Yi Order Number",
+    "jiu_order_number": "Jiu Order Number",
+    "contract_no": "Contract No",
+    "dmo": "DMO",
+    "estate": "Estate",
+    "worker": "Worker",
+    "project_type": "Project Type",
+    "is_complete": "Is Complete",
+    "order_status": "Order Status"
   },
   "monitor_runtime": {
     "title": "Runtime Observability",

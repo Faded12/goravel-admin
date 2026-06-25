@@ -198,8 +198,10 @@
     "form_demo": "表單組件演示",
     "observability-lite": "運行觀測",
     "business": "業務管理",
-    "repair-order": "維修單記錄",
-    "repairOrder": "維修單記錄"
+    "repairOrder": "維修單記錄",
+    "repairManagement": "維修管理",
+    "jiuOrder": "九字頭維修訂單",
+    "yiOrder": "一字頭維修訂單"
   },
   "repairOrder": {
     "works_order_number": "工單編號",
@@ -231,6 +233,31 @@
     "breakdown_start_time": "故障開始時間",
     "resume_date": "恢復日期",
     "resume_time": "恢復時間"
+  },
+  "jiuOrder": {
+    "jiu_no": "九字頭訂單編號",
+    "contract_no": "合同編號",
+    "dmo": "DMO編號",
+    "estate": "屋邨名稱",
+    "worker": "工人",
+    "type": "類型",
+    "fee": "費用",
+    "order_status": "訂單狀態",
+    "complete_status": "完成狀態",
+    "project_type": "項目類型",
+    "date_start": "開始日期",
+    "date_end": "結束日期"
+  },
+  "yiOrder": {
+    "yi_no": "一字頭訂單編號",
+    "jiu_order_number": "九字頭訂單編號",
+    "contract_no": "合同編號",
+    "dmo": "DMO編號",
+    "estate": "屋邨名稱",
+    "worker": "工人",
+    "project_type": "項目類型",
+    "is_complete": "是否完成",
+    "order_status": "訂單狀態"
   },
   "monitor_runtime": {
     "title": "运行观测",

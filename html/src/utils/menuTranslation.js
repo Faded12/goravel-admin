@@ -20,8 +20,16 @@ function extractSlugFromPath(path) {
 }
 
 /**
+ * 将连字符格式转换为驼峰式
+ * 例如：repair-order -> repairOrder, jiu-order -> jiuOrder
+ */
+function kebabToCamel(kebab) {
+  return kebab.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase())
+}
+
+/**
  * 菜单翻译工具函数
- * 自动处理 slug 的各种格式（连字符、下划线）和变体（带/不带 _management 后缀）
+ * 自动处理 slug 的各种格式（连字符、下划线、驼峰式）和变体（带/不带 _management 后缀）
  * 使用 te() 检查键是否存在，避免警告
  */
 export function getMenuTranslation(t, te, slug) {
@@ -31,7 +39,8 @@ export function getMenuTranslation(t, te, slug) {
   const slugVariants = [
     slug, // 原始 slug（如 online-admin）
     slug.replace(/-/g, '_'), // 连字符转下划线（如 online_admin）
-    slug.replace(/_/g, '-') // 下划线转连字符（如 online-admin）
+    slug.replace(/_/g, '-'), // 下划线转连字符（如 online-admin）
+    kebabToCamel(slug) // 连字符转驼峰式（如 onlineAdmin）
   ]
   
   // 去重
