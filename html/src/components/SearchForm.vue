@@ -131,12 +131,12 @@ const props = defineProps({
   // 默认展开状态
   defaultExpanded: {
     type: Boolean,
-    default: false
+    default: true
   },
   // 是否显示展开按钮
   showExpandButton: {
     type: Boolean,
-    default: true
+    default: false
   },
   // 展开按钮类型
   expandButtonType: {
@@ -362,11 +362,6 @@ const handleReset = () => {
     forOwn(props.model, (value, key) => {
       props.model[key] = resetValue(value)
     })
-  }
-  
-  if (expanded.value) {
-    expanded.value = false
-    emit('expand-change', false)
   }
   
   // 传递重置后的表单数据和是否刷新的选项

@@ -25,6 +25,7 @@
         </div>
         <el-menu
           :default-active="activeMenu"
+          :default-openeds="defaultOpeneds"
           class="sidebar-menu"
           @select="handleMenuSelect"
         >
@@ -67,6 +68,7 @@
       </div>
       <el-menu
         :default-active="activeMenu"
+        :default-openeds="defaultOpeneds"
         class="sidebar-menu"
         :collapse="appStore.sidebarCollapsed"
         :collapse-transition="false"
@@ -109,9 +111,9 @@
         </div>
         <div class="header-right">
           <!-- 菜单搜索 -->
-          <MenuSearch v-if="!isMobile" :menus="menuTree" />
+          <!-- <MenuSearch v-if="!isMobile" :menus="menuTree" /> -->
           <!-- 移动端隐藏全屏按钮 -->
-          <el-button
+          <!-- <el-button
             v-if="!isMobile"
             type="text"
             class="header-btn"
@@ -122,9 +124,9 @@
               <FullScreen v-if="!appStore.isFullscreen" />
               <Aim v-else />
             </el-icon>
-          </el-button>
+          </el-button> -->
           <!-- 布局大小设置 -->
-          <el-dropdown
+          <!-- <el-dropdown
             v-if="!isMobile"
             @command="handleLayoutSizeChange"
             class="layout-size-dropdown"
@@ -170,9 +172,9 @@
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
-          </el-dropdown>
+          </el-dropdown> -->
           <!-- 设置（导航模式、水印） -->
-          <el-popover
+          <!-- <el-popover
             v-if="!isMobile"
             placement="bottom-end"
             :width="300"
@@ -233,11 +235,12 @@
                 </div>
               </div>
             </div>
-          </el-popover>
-          <NotificationBell />
+          </el-popover> -->
+          <!-- <NotificationBell /> -->
           <DarkModeSwitch />
           <LanguageSwitch :class="{ 'mobile-hidden': isXs }" />
-          <el-button
+          <!-- 锁屏按钮 -->
+          <!-- <el-button
             type="text"
             class="header-btn"
             :class="{ 'mobile-hidden': isXs }"
@@ -245,9 +248,10 @@
             @click="handleLockScreen"
           >
             <el-icon class="header-icon-fixed"><Lock /></el-icon>
-          </el-button>
+          </el-button> -->
           <!-- 移动端隐藏时区切换 -->
-          <TimezoneSwitch :class="{ 'mobile-hidden': isMobile }" />
+          <!-- <TimezoneSwitch :class="{ 'mobile-hidden': isMobile }" /> -->
+          <!-- 用户信息下拉菜单 -->
           <el-dropdown
             @command="handleCommand"
             class="user-dropdown"
@@ -650,6 +654,14 @@ const userAccountShowAllPermissionsHint = computed(
 )
 
 const activeMenu = computed(() => route.path)
+
+const defaultOpeneds = computed(() => {
+  const openedSlugs = ['repair-management']
+  
+  return menuTree.value
+    .filter(menu => openedSlugs.includes(menu.slug))
+    .map(menu => menu.path || `/menu-${menu.id}`)
+})
 const isScreenLocked = ref(false)
 /** 侧栏变窄瞬间：隔离主内容区布局，避免表格/图表随宽度突变触发巨量同步重排 */
 const sidebarNarrowingLock = ref(false)
