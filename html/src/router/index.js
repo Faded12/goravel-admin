@@ -67,6 +67,24 @@ function lazyLoad(importFn, maxRetries = 3, timeout = 10000) {
   })
 }
 
+function getFirstMenuPath(menus) {
+  if (!menus || menus.length === 0) {
+    return '/dashboard'
+  }
+  
+  const firstLevelMenu = menus[0]
+  if (!firstLevelMenu) {
+    return '/dashboard'
+  }
+  
+  if (firstLevelMenu.children && firstLevelMenu.children.length > 0) {
+    const secondLevelMenu = firstLevelMenu.children[0]
+    return secondLevelMenu.path || '/dashboard'
+  }
+  
+  return firstLevelMenu.path || '/dashboard'
+}
+
 // 固定路由（不需要从接口获取）
 const staticRoutes = [
   {
@@ -79,7 +97,6 @@ const staticRoutes = [
     path: '/',
     name: 'MainLayout',
     component: () => lazyLoad(() => import('../layouts/MainLayout.vue')),
-    redirect: '/dashboard',
     meta: { requiresAuth: true },
     children: [
       {
@@ -414,9 +431,10 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
   
   if (to.meta.requiresAuth === false) {
-    // 登录页面，如果已登录则跳转到首页
+    // 登录页面，如果已登录则跳转到首页（第一个菜单）
     if (userStore.isLoggedIn) {
-      next('/')
+      const firstMenuPath = getFirstMenuPath(userStore.menus)
+      next(firstMenuPath)
     } else {
       // 如果未登录，重置动态路由标志
       if (dynamicRoutesAdded) {
@@ -433,6 +451,22 @@ router.beforeEach((to, from, next) => {
       }
       next('/login')
     } else {
+      // 如果访问根路径，跳转到第一个菜单
+      if (to.path === '/') {
+        // 如果菜单还没加载，先获取菜单再跳转
+        if (!userStore.menus || userStore.menus.length === 0) {
+          userStore.fetchUserInfo().then(() => {
+            const firstMenuPath = getFirstMenuPath(userStore.menus)
+            next(firstMenuPath)
+          }).catch(() => {
+            next('/dashboard')
+          })
+          return
+        }
+        const firstMenuPath = getFirstMenuPath(userStore.menus)
+        next(firstMenuPath)
+        return
+      }
       // 优化：只在首次加载（从登录页或刷新页面）时才阻塞导航
       // 如果用户信息已获取过，允许导航继续，菜单可以在后台异步加载
       const isFirstLoad = !from.name || from.name === 'Login'
@@ -446,8 +480,9 @@ router.beforeEach((to, from, next) => {
         // 冷却期内不重复拉取菜单，避免 /info 被频繁请求
         if (now - lastMenuRefreshAttemptAt < MENU_REFRESH_COOLDOWN) {
           const resolved = router.resolve(to.path)
-          if (!resolved.name && to.path !== '/dashboard') {
-            next('/dashboard')
+          const firstMenuPath = getFirstMenuPath(userStore.menus)
+          if (!resolved.name && to.path !== firstMenuPath) {
+            next(firstMenuPath)
           } else {
             next()
           }
@@ -480,12 +515,12 @@ router.beforeEach((to, from, next) => {
             markNavigationRetried(to.fullPath)
             next(to.fullPath)
           } else {
-            next('/dashboard')
+            next(getFirstMenuPath(userStore.menus))
           }
         }).catch((error) => {
           logger.error('Failed to refresh menus:', error)
-          // 获取失败时不再反复重试，直接回到 dashboard（避免触发更多 /info）
-          next('/dashboard')
+          // 获取失败时不再反复重试，直接回到第一个菜单（避免触发更多 /info）
+          next(getFirstMenuPath(userStore.menus))
         })
         return
       }
@@ -501,7 +536,7 @@ router.beforeEach((to, from, next) => {
             markNavigationRetried(to.fullPath)
             next(to.fullPath)
           } else {
-            next('/dashboard')
+            next(getFirstMenuPath(userStore.menus))
           }
           return
         }
@@ -513,7 +548,7 @@ router.beforeEach((to, from, next) => {
             markNavigationRetried(to.fullPath)
             next(to.fullPath)
           } else {
-            next('/dashboard')
+            next(getFirstMenuPath(userStore.menus))
           }
           return
         }
@@ -546,7 +581,7 @@ router.beforeEach((to, from, next) => {
             markNavigationRetried(to.fullPath)
             next(to.fullPath)
           } else {
-            next('/dashboard')
+            next(getFirstMenuPath(userStore.menus))
           }
         }).catch((error) => {
           // 如果获取用户信息失败（可能是401），拦截器会处理跳转
@@ -563,7 +598,7 @@ router.beforeEach((to, from, next) => {
             markNavigationRetried(to.fullPath)
             next(to.fullPath)
           } else {
-            next('/dashboard')
+            next(getFirstMenuPath(userStore.menus))
           }
           return
         }
@@ -575,7 +610,7 @@ router.beforeEach((to, from, next) => {
             markNavigationRetried(to.fullPath)
             next(to.fullPath)
           } else {
-            next('/dashboard')
+            next(getFirstMenuPath(userStore.menus))
           }
           return
         }

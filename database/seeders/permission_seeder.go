@@ -18,6 +18,7 @@ func (s *PermissionSeeder) Run() error {
 	var adminMenu, roleMenu, permissionMenu, menuMenu, departmentMenu, positionMenu, dictionaryMenu, configMenu, blacklistMenu, onlineAdminMenu, orderMenu, userMenu, userBalanceLogMenu models.Menu
 	var operationLogMenu, loginLogMenu, systemLogMenu, observabilityMenu, monitorMenu, profileMenu, exportMenu, attachmentMenu, dashboardMenu, notificationMenu models.Menu
 	var paymentMethodMenu, paymentRecordMenu models.Menu
+	var jiuOrderMenu, yiOrderMenu models.Menu
 
 	// 辅助函数：查找菜单
 	findMenu := func(slug string, menu *models.Menu) {
@@ -49,6 +50,8 @@ func (s *PermissionSeeder) Run() error {
 	findMenu("user-balance-log", &userBalanceLogMenu)
 	findMenu("payment-method", &paymentMethodMenu)
 	findMenu("payment-record", &paymentRecordMenu)
+	findMenu("jiu-order", &jiuOrderMenu)
+	findMenu("yi-order", &yiOrderMenu)
 
 	// Dashboard 可能没有单独的菜单，使用 profile 菜单作为关联
 	facades.Orm().Query().Where("slug", "dashboard").First(&dashboardMenu)
@@ -206,6 +209,20 @@ func (s *PermissionSeeder) Run() error {
 		// 支付记录管理
 		{Name: "支付记录列表", Slug: "payment.index", Method: "GET", Path: "/api/admin/payments", Description: "查看支付记录列表", Status: 1, Sort: 1, MenuID: paymentRecordMenu.ID},
 		{Name: "支付记录详情", Slug: "payment.show", Method: "GET", Path: "/api/admin/payments/*", Description: "查看支付记录详情", Status: 1, Sort: 2, MenuID: paymentRecordMenu.ID},
+		// 九字头维修订单管理
+		{Name: "九字头订单列表", Slug: "jiu_order.index", Method: "GET", Path: "/api/admin/jiu-orders", Description: "查看九字头维修订单列表", Status: 1, Sort: 1, MenuID: jiuOrderMenu.ID},
+		{Name: "九字头订单详情", Slug: "jiu_order.show", Method: "GET", Path: "/api/admin/jiu-orders/*", Description: "查看九字头维修订单详情", Status: 1, Sort: 2, MenuID: jiuOrderMenu.ID},
+		{Name: "九字头订单创建", Slug: "jiu_order.store", Method: "POST", Path: "/api/admin/jiu-orders", Description: "创建九字头维修订单", Status: 1, Sort: 3, MenuID: jiuOrderMenu.ID},
+		{Name: "九字头订单更新", Slug: "jiu_order.update", Method: "PUT", Path: "/api/admin/jiu-orders/*", Description: "更新九字头维修订单", Status: 1, Sort: 4, MenuID: jiuOrderMenu.ID},
+		{Name: "九字头订单删除", Slug: "jiu_order.destroy", Method: "DELETE", Path: "/api/admin/jiu-orders/*", Description: "删除九字头维修订单", Status: 1, Sort: 5, MenuID: jiuOrderMenu.ID},
+		{Name: "九字头订单导出", Slug: "jiu_order.export", Method: "POST", Path: "/api/admin/jiu-orders/export", Description: "导出九字头维修订单列表", Status: 1, Sort: 6, MenuID: jiuOrderMenu.ID},
+		// 一字头维修订单管理
+		{Name: "一字头订单列表", Slug: "yi_order.index", Method: "GET", Path: "/api/admin/yi-orders", Description: "查看一字头维修订单列表", Status: 1, Sort: 1, MenuID: yiOrderMenu.ID},
+		{Name: "一字头订单详情", Slug: "yi_order.show", Method: "GET", Path: "/api/admin/yi-orders/*", Description: "查看一字头维修订单详情", Status: 1, Sort: 2, MenuID: yiOrderMenu.ID},
+		{Name: "一字头订单创建", Slug: "yi_order.store", Method: "POST", Path: "/api/admin/yi-orders", Description: "创建一字头维修订单", Status: 1, Sort: 3, MenuID: yiOrderMenu.ID},
+		{Name: "一字头订单更新", Slug: "yi_order.update", Method: "PUT", Path: "/api/admin/yi-orders/*", Description: "更新一字头维修订单", Status: 1, Sort: 4, MenuID: yiOrderMenu.ID},
+		{Name: "一字头订单删除", Slug: "yi_order.destroy", Method: "DELETE", Path: "/api/admin/yi-orders/*", Description: "删除一字头维修订单", Status: 1, Sort: 5, MenuID: yiOrderMenu.ID},
+		{Name: "一字头订单导出", Slug: "yi_order.export", Method: "POST", Path: "/api/admin/yi-orders/export", Description: "导出一字头维修订单列表", Status: 1, Sort: 6, MenuID: yiOrderMenu.ID},
 	}
 
 	for _, perm := range permissions {

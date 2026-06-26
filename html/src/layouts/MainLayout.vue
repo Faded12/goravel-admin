@@ -29,10 +29,6 @@
           class="sidebar-menu"
           @select="handleMenuSelect"
         >
-          <el-menu-item index="/dashboard">
-            <el-icon><Odometer /></el-icon>
-            <template #title>{{ $t('menu.dashboard') }}</template>
-          </el-menu-item>
           <MenuItem
             v-for="menu in menuTree"
             :key="menu.id"
@@ -74,10 +70,6 @@
         :collapse-transition="false"
         @select="handleMenuSelect"
       >
-        <el-menu-item index="/dashboard">
-          <el-icon><Odometer /></el-icon>
-          <template #title>{{ $t('menu.dashboard') }}</template>
-        </el-menu-item>
         <MenuItem
           v-for="menu in menuTree"
           :key="menu.id"
@@ -389,10 +381,6 @@
           :popper-offset="8"
           @select="handleMenuSelect"
         >
-          <el-menu-item index="/dashboard">
-            <el-icon><Odometer /></el-icon>
-            <template #title>{{ $t('menu.dashboard') }}</template>
-          </el-menu-item>
           <MenuItem
             v-for="menu in menuTree"
             :key="menu.id"
@@ -697,10 +685,10 @@ const menuTree = computed(() => {
     return []
   }
   
-  // 后端已返回树形结构，只需要过滤掉隐藏和禁用的菜单，然后排序
+  // 后端已返回树形结构，过滤掉隐藏、禁用的菜单以及dashboard菜单，然后排序
   return filterAndSortTree(
     menus,
-    menu => menu.is_hidden === 0 && menu.status === 1,
+    menu => menu.is_hidden === 0 && menu.status === 1 && menu.slug !== 'dashboard',
     (a, b) => a.sort - b.sort
   )
 })

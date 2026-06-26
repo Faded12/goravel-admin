@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard" v-if="false">
     <!-- 页面头部：刷新按钮 -->
     <div class="dashboard-header">
       <div>
